@@ -1,0 +1,38 @@
+# This file creates the BBS-TNC.EXE program.
+# Copyright (c) 1990 Fredric L. Rice
+#
+# The MODEL variable is used to describe
+# the memory model to use.
+#
+# Compiler SWITCHES:
+#    -G 	Generate for speed rather than size
+#    -O 	Optimizes jumps
+#    -d 	Merge duplicate strings
+#    -Z 	This would optimize registers
+#    -K		Default char is considered unsigned
+#    -g1        Stop after first warning
+#    -j1	Stop after first error
+#    -v         Symbol table
+#    -y         Line number
+#    -w         Enable all warnings
+#    -S         Produce assembly output
+
+MODEL = h
+
+SWITCHES1 = -Ic:\tc\include -G -O -d -Z -K -g1 -j1
+
+# Describe the files that are used to
+# create the executable module.
+
+bbs-tnc.exe : bbs-tnc.obj
+
+# Here is the command to execute if
+# bbs-tnc.exe needs to be linked.
+
+     tlink /x /i @bbs-tnc.res
+
+# The following are the commands that create the object module
+
+bbs-tnc.obj : bbs-tnc.c
+     tcc -c $(SWITCHES1) -m$(MODEL) bbs-tnc.c
+
